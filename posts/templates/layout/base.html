@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title> Solace | {% block title %}{% endblock %} </title>
+	</head>
+
+	<body>
+		<nav> 
+			<a href="{% url 'home' %}"> Home </a> ||
+			<a href="{% url 'client_login' %}"> Login </a> ||
+			<a href="{% url 'client_registration' %}"> Register </a>
+		</nav>
+		
+		{% block body %}{% endblock %}
+	</body>
+</html>

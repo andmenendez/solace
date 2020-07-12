@@ -1,0 +1,19 @@
+{% extends 'layout/base.html' %}
+
+{% block title %} test_form {% endblock %}
+
+{% block body %}
+
+
+<h1> {{ controller_name }} </h1>
+<div style="background-color: rgb(255,255,200)">
+
+	<form method="post" action="{% url post_url %}">
+		{% csrf_token %}
+		{{ form.as_p }}
+		
+		<input type="submit" value="Submit">
+	</form>
+</div>
+
+{% endblock %}
