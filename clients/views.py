@@ -1,62 +1,87 @@
 
-from django.urls import reverse
+
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout, password_validation
 from django.core.exceptions import ValidationError
 
-from .forms import AnonForm, ClientInfoForm, ClientLoginForm
-from .models import A_post, Temp_Client, Client
+from .forms import ClientInfoForm, ClientLoginForm
+from .models import Client
+from django.contrib.auth.models import User
 
 # Create your views here.
-def index(request):
-	if request.method == "POST":
-		form = AnonForm(request.POST)
-		if form.is_valid():
-			return render(request, "test_html/test_success.html", {"message": "client > index > anonform > valid post"})
-	else:
-		form = AnonForm()
+
+# CLIENT ACCOUNTS \\ LOGIN, REGISTRATION, VIEWS
+
+def client_login(request):
+	if request.method == "GET":
+		form = ClientLoginForm()
 		context= {
-			"post_url": "anon_request",
-			"controller_name": "Client Index/AnonForm",
+			"post_url": "client_login",
+			"controller_name": "Client Login",
 			"form": form
 		}
-	return render(request, "test_html/test_form.html", context)
+		return render(request, "test_html/test_form.html", context)
 
-def anon_request(request):
+	username = request.POST.get("username")
+	password = request.POST.get("password")
+	
+	user = authenticate(request, username=username, password=password)
 
-	title 		= request.POST.get("title")
-	body 		= request.POST.get("body")
-	contact_id 	= request.POST.get("contact_id")
-	is_public 	= request.POST.get("is_public")
+	if user is not None:
+		login(request, user)
+		return render(request, "test_html/test_success.html", {"message": "client_login > POST > user login SUCCESS"})
 
-	try: 
-		a_post = A_post.objects.create(title=title, body=body)
-		a_post.save()
-
-		temp_client =Temp_Client.objects.create(contact_id=contact_id, post=a_post)
-		temp_client.save()
-		
-	except ValidationError: 
-		return render(request, "test_html/test_failure.html", {"message": "client > anon_request > validation ERROR anon post (NON-PUBLIC)"})
-	return render(request, "test_html/test_success.html", {"message": "client > anon_request > successful anon post:: {is_public}"})
+	else:
+		return render(request, "test_html/test_failure.html", {"message": "client_login > POST > user login failed"})
 
 
 def client_register(request):
-	form = ClientInfoForm()
-	context= {	
+	if request.method=="GET":
+		form = ClientInfoForm()
+		context= {	
 
-		"post_url": "",
-		"controller_name": "Client Register",
-		"form": form
-	}
+			"post_url": "client_register",
+			"controller_name": "Client Register",
+			"form": form
+		}
+		return render(request, "test_html/test_form.html", context)
+	
+	form = ClientInfoForm(request.POST)
 
-	return render(request, "test_html/test_form.html", context)
+	if form.is_valid():
 
-def client_login(request):
-	form = ClientLoginForm()
-	context= {
-		"post_url": "",
-		"controller_name": "Client Login",
-		"form": form
-	}
-	return render(request, "test_html/test_form.html", context)
+		username 	= form.cleaned_data.get("username")
+		password 	= form.cleaned_data.get("password")
+		password_c	= form.cleaned_data.get("password_c")
+
+		if password != password_c:
+			return render(request, "test_html/test_failure.html", {"message": "client_registration > POST > Client PW do not match"})
+
+		user_info = {
+			'first_name' 	: form.cleaned_data.get("first_name"),
+			'last_name' 	: form.cleaned_data.get("last_name"),
+			'birthday' 		: form.cleaned_data.get("birthday"),
+			'email' 		: form.cleaned_data.get("email"),
+			'phone' 		: form.cleaned_data.get("phone"),
+			'zipcode' 		: form.cleaned_data.get("zipcode")
+		}
+
+		try:
+			password_validation.validate_password(password)
+			user = User.objects.create(username=username)
+			user.set_password(password)
+			user.save()
+
+			login(request, user)
+			user = authenticate(request, username=username, password=password)
+
+			Client.createClient(user, user_info)
+
+			return render(request, "test_html/test_success.html", {"message": "client_registration > POST > user registered and logged in SUCCESS"})
+		except ValidationError:
+			return render(request, "test_html/test_failure.html", {"message": "client_registration > POST > Client.save() FAILED"})
+	return render(request, "test_html/test_failure.html", {"message": "client_registration > POST > user FAILED to register"})
+
+def client_logout(request):
+	logout(request)
+	return render(request, "test_html/test_success.html", {"message": "client_logout > POST > logout SUCCESS"})

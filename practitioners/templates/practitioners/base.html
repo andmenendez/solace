@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title> PRACT | {% block title %}{% endblock %} </title>
+
+	</head>
+
+	<body>
+		<nav> 
+			<a href="{% url 'practitioner_index' %}"> Home </a> ||
+			{% if user.is_authenticated %}
+				logged in as {{ user.practitioner.first_name }} {{ user.practitioner.last_name }}
+				<a href="{% url 'practitioner_logout' %}"> Logout </a> ||
+			{% else %}
+				<a href="{% url 'practitioner_login' %}"> Login </a> ||
+				<a href="{% url 'practitioner_register' %}"> Register </a>
+			{% endif %}
+		</nav>
+		
+		{% block body %}{% endblock %}
+	</body>
+</html>

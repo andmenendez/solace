@@ -2,15 +2,53 @@
 <html>
 	<head>
 		<title> Solace | {% block title %}{% endblock %} </title>
+
+		{% load static %}
+
+		<link rel="stylesheet" type="text/css" href="{% static 'anon_post/base.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'anon_post/anon_index.css' %}">
+
+		{% block load_static %}{% endblock %}
+		<script type="text/javascript" src="{% static 'anon_post/anon_index.js' %}"></script>
+		<script type="text/javascript" src="{% static 'anon_post/anon_nav.js' %}"></script>
+
+		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+
+		
+		<meta name="viewport" content="width=device-width, initial-scale=.34">
+		
 	</head>
 
 	<body>
-		<nav> 
-			<a href="{% url 'home' %}"> Home </a> ||
-			<a href="{% url 'client_login' %}"> Login </a> ||
-			<a href="{% url 'client_registration' %}"> Register </a>
-		</nav>
-		
-		{% block body %}{% endblock %}
+		<div id="color_animated_bg"></div>
+		<div id="white_fade_overlay"></div>
+
+			{% if user.is_authenticated %}
+				{% include 'layout/base_authenticated_user.html' %}
+			{% else %}
+				{% include 'layout/base_unauthenticated_user.html' %}
+			{% endif %}
+
+			<div id="solace_title">
+					<a href="{% url 'home' %}">solace</a>
+			</div>
+
+			<div class="content">
+				{% block body %}{% endblock %}
+			</div>
+			
+			<div id="solace_title_reflection">
+					solace
+			</div>
+
+			<div class="footer">
+				<div class="footer_button">
+					<div class="footer_small_circle"></div>
+					<div class="footer_small_circle"></div>
+					<div class="footer_small_circle"></div>
+				</div>
+			</div>
+
+
 	</body>
 </html>

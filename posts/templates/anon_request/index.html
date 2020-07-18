@@ -1,0 +1,47 @@
+{% extends 'layout/base.html' %}
+
+{% block title %} Home {% endblock %}
+
+{% block static_load %}
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'anon_post/anon_index.css' %}">
+{% endblock %}
+
+{% block body %}
+<div id="anon_index">
+
+	<div id="logo"></div>
+	
+	<div id="anon_post_form_wrapper">
+	<form id="anon_post_form" action="anon_request" method="post">
+		{% csrf_token %}
+		<div id="anon_form">
+			<div id="anon_textfield_wrapper">
+				<input name="body" type="textfield" id="anon_post_body" class="anon_textfield" placeholder="ask anonymously.."/>
+			</div>
+
+			<div id="anon_textfield_wrapper">
+				<input name="contact_id" type="textfield" id="anon_post_contactid" class="anon_textfield anon_id" placeholder="contact (✆ or @)"/>
+			</div>
+		</div>
+	</form>
+	
+	<button id="anon_button">➡</button>	
+
+	</div>
+</div>
+
+{% endblock %}
+
+<!-- 
+
+TODO
+-FIELD VALIDATION
+-CORRECTION NOTICE
+-UPDATE SESSOIN WITH USER TO SEE OWN POST IF PUBLIC
+
+-FIX MOBILE NOT CHANGING
+
+-?MAKE QUESTION/TEXT REFLECT OFF LOWER PART LIKE TITLE
+
+ -->

@@ -1,0 +1,19 @@
+{% extends 'layout/base.html' %}
+
+{% block title %} Post {% endblock %}
+
+
+{% block load_static %}
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'anon_post/anon_posts.css' %}">
+{% endblock %}
+
+{% block body %}
+
+
+<div id="anon_posts">
+	<div class="anon_post show_anon_post anon_post_fx"> {{ post.body }} </div>
+	<div class="anon_post anon_post_date"> {{ post.created }} </div>
+</div>
+
+{% endblock %}

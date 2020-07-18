@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title> Solace | {% block title %}{% endblock %} </title>
+
+		{% load static %}
+
+		<link rel="stylesheet" type="text/css" href="{% static 'anon_post/style.css' %}">
+		
+	</head>
+
+	<body>
+		<nav> 
+			<a href="{% url 'home' %}"> Home </a> ||
+			{% if user.is_authenticated %}
+				logged in as {{ user.client.first_name }} {{ user.client.last_name }}
+				<a href="{% url 'client_logout' %}"> Logout </a> ||
+			{% else %}
+				<a href="{% url 'client_login' %}"> Login </a> ||
+				<a href="{% url 'client_register' %}"> Register </a>
+			{% endif %}
+		</nav>
+		
+		{% block body %}{% endblock %}
+	</body>
+</html>

@@ -2,17 +2,24 @@
 
 {% block title %} test_form {% endblock %}
 
+{% block load_static %}
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'anon_post/form.css' %}">
+{% endblock %}
+
 {% block body %}
-
-
-<h1> {{ controller_name }} </h1>
-<div style="background-color: rgb(255,255,200)">
+<div class="form_title"> {{ controller_name }} </div>
+<div class="form_container">
 
 	<form method="post" action="{% url post_url %}">
 		{% csrf_token %}
-		{{ form.as_p }}
-		
-		<input type="submit" value="Submit">
+		{% for field in form %}
+			<div class="form_field">
+				<div class="form_field_tag">{{ field.label_tag }}</div>
+				<div class="form_field_field">{{ field }}</div>
+			</div>
+		{% endfor %}
+		<input type="submit" class="form_submit_button" value="Submit">
 	</form>
 </div>
 
