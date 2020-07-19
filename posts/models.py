@@ -11,7 +11,9 @@ class Anon_Post(models.Model):
 
 class Temp_Client(models.Model):
 	contact_id	= models.CharField(max_length=100)
-	post 		= models.ForeignKey(Anon_Post, on_delete=models.CASCADE)
+
+# 	POST SHOULD BE ONE-TO-ONE RELATION
+	post 		= models.ForeignKey(Anon_Post, on_delete=models.CASCADE) 
 
 	created = models.DateTimeField(auto_now_add=True)
 	

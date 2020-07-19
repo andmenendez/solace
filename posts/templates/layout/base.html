@@ -24,9 +24,9 @@
 		<div id="white_fade_overlay"></div>
 
 			{% if user.is_authenticated %}
-				{% include 'layout/base_authenticated_user.html' %}
+				{% include 'layout/nav_authenticated_user.html' %}
 			{% else %}
-				{% include 'layout/base_unauthenticated_user.html' %}
+				{% include 'layout/nav_unauthenticated_user.html' %}
 			{% endif %}
 
 			<div id="solace_title">

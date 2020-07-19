@@ -18,6 +18,9 @@ class Client(models.Model):
 	created 	= models.DateTimeField(auto_now_add=True)
 	updated_at 	= models.DateTimeField(auto_now=True)
 
+	def __str__(self):
+		return self.first_name + " " + self.last_name
+
 	def createClient(user, user_info):
 		Client.objects.create(
 			account 	= user,

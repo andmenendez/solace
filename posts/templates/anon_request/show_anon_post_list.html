@@ -15,7 +15,6 @@
 	{% for post in post_list %}
 		<a href="{% url 'show_anon_post' post.pk %}"><div class="anon_post anon_post_list anon_post_fx"> {{ post.body }} </div></a>
 	{% endfor %}
-	<div class="anon_post_spacer">endoflist</div>
 
 </div>
 

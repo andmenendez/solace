@@ -29,12 +29,15 @@
 .form_field_field {
 	width: 40%;
 }
+.form_field_field input {
+	border: none;
+}
 .form_submit_button {
 	width: 80%;
 	/*width: 50%;*/
 	border: none;
-	font-family: 'Roboto', sans-serif;
 
+	font-family: 'Roboto', sans-serif;
 	margin-top: 15px;
 	margin-left:10%;
 	background-color: rgba(255,255,255,1); 

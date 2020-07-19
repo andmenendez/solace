@@ -4,21 +4,28 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout, password_validation
 from django.core.exceptions import ValidationError
 
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+
+
 from .forms import ClientInfoForm, ClientLoginForm
 from .models import Client
 from django.contrib.auth.models import User
+
+from practitioners.models import Practitioner
 
 # Create your views here.
 
 # CLIENT ACCOUNTS \\ LOGIN, REGISTRATION, VIEWS
 
 def client_login(request):
+	if request.user.is_authenticated:
+		return HttpResponseRedirect(reverse("client_profile"))
 	if request.method == "GET":
-		form = ClientLoginForm()
 		context= {
 			"post_url": "client_login",
 			"controller_name": "Client Login",
-			"form": form
+			"form": ClientLoginForm()
 		}
 		return render(request, "test_html/test_form.html", context)
 
@@ -29,7 +36,7 @@ def client_login(request):
 
 	if user is not None:
 		login(request, user)
-		return render(request, "test_html/test_success.html", {"message": "client_login > POST > user login SUCCESS"})
+		return HttpResponseRedirect(reverse("client_profile"))
 
 	else:
 		return render(request, "test_html/test_failure.html", {"message": "client_login > POST > user login failed"})
@@ -38,7 +45,7 @@ def client_login(request):
 def client_register(request):
 	if request.method=="GET":
 		form = ClientInfoForm()
-		context= {	
+		context= {
 
 			"post_url": "client_register",
 			"controller_name": "Client Register",
@@ -85,3 +92,17 @@ def client_register(request):
 def client_logout(request):
 	logout(request)
 	return render(request, "test_html/test_success.html", {"message": "client_logout > POST > logout SUCCESS"})
+
+
+def client_profile(request):
+	if not request.user.is_authenticated:
+		return HttpResponseRedirect(reverse("client_login"))
+	return render(request, "clients/profile.html")
+
+def client_opportunities(request):
+	if not request.user.is_authenticated:
+		return HttpResponseRedirect(reverse("client_login"))
+	context = {
+		"practitioners": Practitioner.objects.all()
+	}
+	return render(request, "clients/opportunities.html", context)

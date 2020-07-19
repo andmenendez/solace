@@ -1,22 +1,52 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title> PRACT | {% block title %}{% endblock %} </title>
+		<title> Solace | {% block title %}{% endblock %} </title>
 
+		{% load static %}
+
+		<link rel="stylesheet" type="text/css" href="{% static 'practitioners/base.css' %}">
+
+		{% block load_static %}{% endblock %}
+		<script type="text/javascript" src="{% static 'practitioners/anon_index.js' %}"></script>
+
+		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+
+		
+		<meta name="viewport" content="width=device-width, initial-scale=.34">
+		
 	</head>
 
 	<body>
-		<nav> 
-			<a href="{% url 'practitioner_index' %}"> Home </a> ||
+		<div id="color_animated_bg"></div>
+		<div id="white_fade_overlay"></div>
+
 			{% if user.is_authenticated %}
-				logged in as {{ user.practitioner.first_name }} {{ user.practitioner.last_name }}
-				<a href="{% url 'practitioner_logout' %}"> Logout </a> ||
+				{% include 'practitioners/layout/nav_authenticated_user.html' %}
 			{% else %}
-				<a href="{% url 'practitioner_login' %}"> Login </a> ||
-				<a href="{% url 'practitioner_register' %}"> Register </a>
+				{% include 'practitioners/layout/nav_unauthenticated_user.html' %}
 			{% endif %}
-		</nav>
-		
-		{% block body %}{% endblock %}
+
+			<div id="solace_title">
+					<a href="{% url 'practitioner_index' %}">solace</a>
+			</div>
+
+			<div class="content">
+				{% block body %}{% endblock %}
+			</div>
+			
+			<div id="solace_title_reflection">
+					solace
+			</div>
+
+			<div class="footer">
+				<div class="footer_button">
+					<div class="footer_small_circle"></div>
+					<div class="footer_small_circle"></div>
+					<div class="footer_small_circle"></div>
+				</div>
+			</div>
+
+
 	</body>
 </html>

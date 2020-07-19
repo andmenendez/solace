@@ -1,0 +1,45 @@
+{% extends 'layout/base.html' %}
+
+{% block title %} index {% endblock %}
+
+{% block load_static %}
+{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'practitioners/practitioner_style.css' %}">
+{% endblock %}
+
+{% block body %}
+
+<div class="title">
+	Practitioner
+</div>
+<div class="public_profile_container">
+	<div class="info_row">
+		<div class="info">first_name	</div><div class="info"> {{ pract.first_name }}</div>
+	</div>
+	<div class="info_row">
+		<div class="info">last_name 	</div><div class="info"> {{ pract.last_name }} </div>
+	</div>
+	<div class="info_row">
+		<div class="info">email  		</div><div class="info"> {{ pract.email }} 	</div>
+	</div>
+	<div class="info_row">
+		<div class="info">phone  		</div><div class="info"> {{ pract.phone }} 	</div>
+	</div>
+	<div class="info_row">
+		<div class="info">zipcode  		</div><div class="info"> {{ pract.zipcode }} 	</div>
+	</div>
+
+</div>
+
+{% if user.is_authenticated %}
+	<div class="public_profile_container">
+
+		<form method="post" action="{% url 'client_send_message' %}">
+		{% csrf_token %}
+		<input type="hidden" value="helloworld" name="message">
+		<input type="submit" value="contact me">
+		</form>
+	</div>
+{% endif %}
+
+{% endblock %}

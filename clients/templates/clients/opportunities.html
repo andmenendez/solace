@@ -1,0 +1,26 @@
+{% extends 'layout/base.html' %}
+
+{% block title %} index {% endblock %}
+
+{% block load_static %}
+{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'clients/client_style.css' %}">
+{% endblock %}
+
+{% block body %}
+
+<div id="title">
+	Opportunities
+</div>
+
+<div id="opportunities_container">
+	{% for pract in practitioners %}
+	<a href="{% url 'practitioner_public_profile' pract.id %}">
+		<div class="practitioner">
+			{{ pract.first_name }} {{ pract.last_name }} {{ pract.id }}
+		</div>
+	</a>
+	{% endfor %}
+</div>
+
+{% endblock %}

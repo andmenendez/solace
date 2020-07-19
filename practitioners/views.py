@@ -1,26 +1,42 @@
-from django.shortcuts import render
+from django.shortcuts 			import render
 
-from django.contrib.auth import authenticate, login, logout, password_validation
-from django.core.exceptions import ValidationError
+from django.contrib.auth 		import authenticate, login, logout, password_validation
+from django.core.exceptions 	import ValidationError
+from django.http 				import HttpResponseRedirect
+from django.urls 				import reverse
 
-from .models import Practitioner
-from .forms import PractInfoForm
+from .models 					import Practitioner
+from .forms 					import PractInfoForm, PractLoginForm
+from conversations.models 		import Conversation, Message
+from clients.models				import Client
+from posts.models 				import Anon_Post
 from django.contrib.auth.models import User
 
 # Create your views here.
 def practitioner_index(request):
-	return render(request, "practitioners/index.html")
+	if not request.user.is_authenticated:
+		return HttpResponseRedirect(reverse('practitioner_login'))
+	# try: 
+	context = {
+		"conv_list":Conversation.objects.filter(practitioner=request.user.practitioner),
+		"post_list":Anon_Post.objects.all()
+	}
+	return render(request, "practitioners/index.html", context)
+	
+	# except:
+	# 	return render(request, "test_html/test_failure.html", {"message": "not practitioner"})
 
 # PRACTITIONER ACCOUNTS \\ LOGIN, REGISTRATION, VIEWS
 def practitioner_login(request):
+	if request.user.is_authenticated:
+		return HttpResponseRedirect(reverse("practitioner_index"))
 	if request.method == "GET":
-		form = PractInfoForm()
 		context= {
 			"post_url": "practitioner_login",
 			"controller_name": "Practitioner Login",
-			"form": form
+			"form": PractLoginForm()
 		}
-		return render(request, "test_html/test_form.html", context)
+		return render(request, "practitioners/form.html", context)
 
 	username = request.POST.get("username")
 	password = request.POST.get("password")
@@ -29,10 +45,10 @@ def practitioner_login(request):
 
 	if user is not None:
 		login(request, user)
-		return render(request, "test_html/test_success.html", {"message": "practitioner_login > POST > user login SUCCESS"})
+		return HttpResponseRedirect(reverse("practitioner_index"))
 
 	else:
-		return render(request, "test_html/test_failure.html", {"message": "practitioner_login > POST > user login failed"})
+		return render(request, "test_html/test_failure.html", {"message": "client_login > POST > user login failed"})
 
 
 def practitioner_register(request):
@@ -43,7 +59,7 @@ def practitioner_register(request):
 			"controller_name": "Practitioner Register",
 			"form": form
 		}
-		return render(request, "test_html/test_form.html", context)
+		return render(request, "practitioners/form.html", context)
 	
 	form = PractInfoForm(request.POST)
 
@@ -84,3 +100,9 @@ def practitioner_register(request):
 def practitioner_logout(request):
 	logout(request)
 	return render(request, "test_html/test_success.html", {"message": "practitioner_logout > POST > logout SUCCESS"})
+
+def practitioner_public_profile(request, pract_id):
+	context = {
+		"pract": Practitioner.objects.get(id = pract_id)
+	}
+	return render(request, "practitioners/practitioner_public_profile.html", context)

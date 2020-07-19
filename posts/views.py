@@ -11,8 +11,9 @@ from django.core.exceptions import ValidationError
 def index(request):
 	if request.method == "POST":
 		form = AnonForm(request.POST)
+		context = {"message": "client > index > anonform > valid post"}
 		if form.is_valid():
-			return render(request, "test_html/test_success.html", {"message": "client > index > anonform > valid post"})
+			return render(request, "test_html/test_success.html", context)
 	else:
 		form = AnonForm()
 		context = {

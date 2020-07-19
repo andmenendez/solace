@@ -1,9 +1,34 @@
 {% extends 'practitioners/base.html' %}
 
-{% block title %} index {% endblock %}
+{% block load_static %}
+{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'practitioners/index.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'anon_post/anon_posts.css' %}">
+{% endblock %}
+
+{% block title %} Practitioner Portal {% endblock %}
 
 {% block body %}
 
-<h1> pract index </h1>
+<div class="practitioner_index_container">
+	<div class="practitioner_index_messages practitioner_index_column">
+			<div id="anon_posts">
+				{% for conv in conv_list %}
+					<a href="{% url 'show_conv' conv.pk %}">
+					<div class="anon_post anon_post_list anon_post_fx"> {{ conv }} </div>
+				</a>
+				{% endfor %}
+			</div>
+	</div>
 
+	<div class="practitioner_index_posts practitioner_index_column">
+			<div id="anon_posts">
+				{% for post in post_list %}
+				<a href="{% url 'show_anon_post' post.pk %}">
+					<div class="anon_post anon_post_list anon_post_fx"> {{ post.body }} </div>
+				</a>
+			{% endfor %}
+		</div>
+	</div>
+</div>
 {% endblock %}

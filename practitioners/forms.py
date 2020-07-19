@@ -4,6 +4,9 @@ from .models import Practitioner
 
 # PRACT LOGIN
 # login and registration/info update
+class PractLoginForm(forms.Form):
+	username	= forms.CharField()
+	password	= forms.CharField(max_length=50, widget=forms.PasswordInput)
 
 class PractInfoForm(forms.Form):
 	class Meta:

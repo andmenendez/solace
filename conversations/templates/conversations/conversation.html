@@ -1,0 +1,15 @@
+{% if sender.is_pract %}
+	{% extends 'practitioners/base.html' %}
+{% else %}
+	{% extends 'practitioners/base.html' %}
+{% endif %}
+
+{% block load_static %}
+{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'practitioners/index.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'anon_post/anon_posts.css' %}">
+{% endblock %}
+
+{% block title %} Practitioner Portal {% endblock %}
+
+{% block body %}

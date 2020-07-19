@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title> Solace | {% block title %}{% endblock %} </title>
+
+		{% load static %}
+
+		<link rel="stylesheet" type="text/css" href="{% static 'practitioners/base.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'practitioners/anon_index.css' %}">
+
+		{% block load_static %}{% endblock %}
+		<script type="text/javascript" src="{% static 'practitioners/anon_index.js' %}"></script>
+
+		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+
+		
+		<meta name="viewport" content="width=device-width, initial-scale=.34">
+		
+	</head>
+
+	<body>
+		<div id="color_animated_bg"></div>
+		<div id="white_fade_overlay"></div>
+
+			{% if user.is_authenticated %}
+				{% include 'layout/nav_authenticated_user.html' %}
+			{% else %}
+				{% include 'layout/nav_unauthenticated_user.html' %}
+			{% endif %}
+
+			<div id="solace_title">
+					<a href="{% url 'home' %}">solace</a>
+			</div>
+
+			<div class="content">
+				{% block body %}{% endblock %}
+			</div>
+			
+			<div id="solace_title_reflection">
+					solace
+			</div>
+
+			<div class="footer">
+				<div class="footer_button">
+					<div class="footer_small_circle"></div>
+					<div class="footer_small_circle"></div>
+					<div class="footer_small_circle"></div>
+				</div>
+			</div>
+
+
+	</body>
+</html>

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'posts.apps.PostsConfig',
     'clients.apps.ClientsConfig',
     'practitioners.apps.PractitionersConfig',
+    'conversations.apps.ConversationsConfig',
 ]
 
 MIDDLEWARE = [
