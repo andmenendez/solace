@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'clients.apps.ClientsConfig',
     'practitioners.apps.PractitionersConfig',
     'conversations.apps.ConversationsConfig',
+    'datamodels.apps.DatamodelsConfig',
+    'localflavor'
 ]
 
 MIDDLEWARE = [

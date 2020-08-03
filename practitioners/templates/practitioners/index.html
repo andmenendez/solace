@@ -1,6 +1,7 @@
 {% extends 'practitioners/base.html' %}
 
 {% block load_static %}
+
 {% load static %}
 	<link rel="stylesheet" type="text/css" href="{% static 'practitioners/index.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'anon_post/anon_posts.css' %}">
@@ -9,24 +10,38 @@
 {% block title %} Practitioner Portal {% endblock %}
 
 {% block body %}
-
 <div class="practitioner_index_container">
+	<!-- CLIENT CONVERSATIONS -->
 	<div class="practitioner_index_messages practitioner_index_column">
-			<div id="anon_posts">
+		<div id="anon_posts">
 				{% for conv in conv_list %}
-					<a href="{% url 'show_conv' conv.pk %}">
-					<div class="anon_post anon_post_list anon_post_fx"> {{ conv }} </div>
-				</a>
+					<form method="post" action="{% url 'show_conversation' %}">
+						{% csrf_token %}
+					<input type="hidden" value="{{ conv.id }}" name="conversation_id">	
+					<input type="submit" value="{{ conv.client }}" class="anon_post anon_post_list anon_post_fx">
+					</form>
 				{% endfor %}
 			</div>
 	</div>
-
+	<!-- ANON CONVERSATIONS -->
 	<div class="practitioner_index_posts practitioner_index_column">
-			<div id="anon_posts">
-				{% for post in post_list %}
-				<a href="{% url 'show_anon_post' post.pk %}">
-					<div class="anon_post anon_post_list anon_post_fx"> {{ post.body }} </div>
-				</a>
+		<div id="anon_posts">
+			{% for conv in a_conv_list %}
+				<form method="post" action="{% url 'show_anon_conversation' %}">
+					{% csrf_token %}
+					<input type="hidden" value="{{ conv.id }}" name="conversation_id">	
+					<input type="submit" value="{{ conv }}" class="anon_post anon_post_list anon_post_fx">
+				</form>
+			{% endfor %}
+		</div>
+	</div>
+	<!-- ANON POSTS -->
+	<div class="practitioner_index_posts practitioner_index_column">
+		<div id="anon_posts">
+			{% for post in post_list %}
+			<a href="{% url 'show_anon_post' post.pk %}">
+				<div class="anon_post anon_post_list anon_post_fx"> {{ post.body }} </div>
+			</a>
 			{% endfor %}
 		</div>
 	</div>

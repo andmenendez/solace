@@ -1,0 +1,35 @@
+{% extends 'layout/base.html' %}
+
+{% block title %} Home {% endblock %}
+
+{% block static_load %}
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'anon_post/anon_index.css' %}">
+{% endblock %}
+
+{% block body %}
+
+<div id="index_wrapper">
+	<a href="{% url 'ask' %}"><div class="index_option">ask a<br/>professional</div>
+	</a>
+
+	<a href="{% url 'client_opportunities' %}"><div class="index_option">explore<br/>opportunities</div>
+	</a>
+
+</div>
+
+<a id="practitioner_index" href="{% url 'practitioner_index' %}">[practitioner portal]</a>
+{% endblock %}
+
+<!-- 
+
+TODO
+-FIELD VALIDATION
+-CORRECTION NOTICE
+-UPDATE SESSOIN WITH USER TO SEE OWN POST IF PUBLIC
+
+-FIX MOBILE NOT CHANGING
+
+-?MAKE QUESTION/TEXT REFLECT OFF LOWER PART LIKE TITLE
+
+ -->

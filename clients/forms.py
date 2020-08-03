@@ -13,17 +13,18 @@ class ClientInfoForm(forms.Form):
 		model = Client
 		exclude = ('created', 'updated_at')
 
+	email		= forms.EmailField()
+
 	username	= forms.CharField(max_length=100)
 	password	= forms.CharField(max_length=50, widget=forms.PasswordInput)
 	password_c	= forms.CharField(max_length=50, widget=forms.PasswordInput)
 
-	first_name	= forms.CharField(max_length=100)
-	last_name	= forms.CharField(max_length=100)
+	first_name	= forms.CharField(max_length=100, required=False)
+	last_name	= forms.CharField(max_length=100, required=False)
 	birthday	= forms.CharField(min_length=10, max_length=10, 
-		widget=forms.TextInput(attrs={'placeholder':'MM/DD/YYYY'}))
+		widget=forms.TextInput(attrs={'placeholder':'MM/DD/YYYY'}), required=False)
 	
-	email		= forms.EmailField()
-	phone		= forms.IntegerField()
-	zipcode 	= forms.IntegerField()
+	phone		= forms.IntegerField(required=False)
+	zipcode 	= forms.IntegerField(required=False)
 
 

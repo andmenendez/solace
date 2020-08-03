@@ -6,7 +6,6 @@
 		{% load static %}
 
 		<link rel="stylesheet" type="text/css" href="{% static 'practitioners/base.css' %}">
-		<link rel="stylesheet" type="text/css" href="{% static 'practitioners/anon_index.css' %}">
 
 		{% block load_static %}{% endblock %}
 		<script type="text/javascript" src="{% static 'practitioners/anon_index.js' %}"></script>
@@ -23,23 +22,19 @@
 		<div id="white_fade_overlay"></div>
 
 			{% if user.is_authenticated %}
-				{% include 'layout/nav_authenticated_user.html' %}
+				{% include 'practitioners/layout/nav_authenticated_user.html' %}
 			{% else %}
-				{% include 'layout/nav_unauthenticated_user.html' %}
+				{% include 'practitioners/layout/nav_unauthenticated_user.html' %}
 			{% endif %}
 
 			<div id="solace_title">
-					<a href="{% url 'home' %}">solace</a>
+					<a href="{% url 'practitioner_index' %}">solace</a>
 			</div>
 
 			<div class="content">
 				{% block body %}{% endblock %}
 			</div>
 			
-			<div id="solace_title_reflection">
-					solace
-			</div>
-
 			<div class="footer">
 				<div class="footer_button">
 					<div class="footer_small_circle"></div>

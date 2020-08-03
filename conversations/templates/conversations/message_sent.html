@@ -1,0 +1,12 @@
+{% extends 'layout/base.html' %}
+
+{% block load_static %}
+{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'conversations/style.css' %}">
+{% endblock %}
+
+{% block title %} Message Sent {% endblock %}
+
+{% block body %}
+	Message Sent
+{% endblock %}

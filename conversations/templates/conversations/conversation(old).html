@@ -1,0 +1,88 @@
+{% extends base_html %}
+
+{% block load_static %}
+{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'conversations/style.css' %}">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+	<script>
+		function scrollToBottom(container)
+		{
+  			container.scrollTop = container.scrollHeight;
+		}
+		$(document).ready(function() 
+		{
+			scrollToBottom(document.querySelector("#chat_container"));
+			$("#submit_message").click(function()
+			{
+				$.ajax(
+				{
+					url: "{% url 'send_message' %}",
+					
+					data:
+					{
+						"sender_user": 		"{{ user.username }}",
+						"sender_class": 	"{{ sender.to_char }}",
+						"recipient_user" : 	"{{ recipient.account.username }}",
+						"message": 			$("#message").val()
+					},
+			        dataType: 'json'
+				})
+			})
+		});
+
+	</script>
+{% endblock %}
+
+{% block title %} Conversation {% endblock %}
+
+{% block body %}
+	
+<div id="conversation_container">
+<div id="conversation_header">To {{ recipient }}:</div>
+
+<div id="chat_container">
+	{% for message in messages  %}
+		<div class="message_container sender_message_container">
+		{% if sender.account == message.author %}
+		{% else %}
+		<div class="message_container recipient_message_container">
+		{% endif %}
+		
+		
+			<div class="message">
+				<div class="message_header">{{ message.author}}: 	</div>
+				<div class="message_body">{{ message.body }} 		</div>
+			</div> 
+		</div>
+
+	{% endfor %}
+</div>
+
+
+	<form method="post">
+		{% csrf_token %}
+		<input id="message" type="textfield" name="message" maxlength="400" autofocus="">
+
+		<input type="hidden"
+				value="{{ user.username }}" 		 
+				name="sender_user"	
+				id="sender_user">
+
+		<input type="hidden"
+				value="{{ recipient.account.username }}"
+				name="recipient_user"
+				id="recipient_user">
+
+
+		<input type="hidden"
+				value="{{ sender.to_char }}" 		 
+				name="sender_class"
+				id="recipient_class">
+				
+		<button id="submit_message" style="border: 2px solid gray;" type="submit" value="send">send</button>
+	</form>
+
+</div>
+{% endblock %}

@@ -1,28 +1,53 @@
 #title {
 	font-family: 'Roboto', sans-serif;
     font-size: 28px;
-    color: rgba(200,200,200,0.9);
+    color: white;
+    font-weight: bold;
     margin: 60px 0 0px;
-    width: 100%;
+    /*width: 100%;*/
     text-align: center;
-    border-bottom: 1px solid rgba(200,200,200,0.9);
+    /*border-bottom: 1px solid rgba(200,200,200,0.9);*/
 }
 #opportunities_container {
-	width: 100%;
-	background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+
+	/*background-color: white;*/
 }
-.practitioner {	
-	text-align: center;
-	width: 100%;
-	height: 20px;
+.practitioner {
+    border-bottom: 1px solid white;
 	font-family: 'Roboto', sans-serif;
     font-size: 14px;
-    color: rgba(150,150,150,1);
-    padding: 8px;
-
+    color: white;
+    padding: 10px;
+    /*margin: 5px;*/
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
-.practitioner:hover {
+.practitioner .title {
+    text-transform: uppercase;
+}
+.practitioner .col {
+    margin: 0 15px 0 5px;
+    display: flex;
+    text-align: left;
+    justify-content: flex-start;
+    width: 5%;
+}
+.practitioner .col10 {
+    padding: 0 10px 0 0;
+    width: 15%;
+}
+
+.practitioner .col20 {
+    padding: 0 15px 0 0;
+    width: 20%;
+}
+.pract_hover_effect:hover {
 	cursor: pointer;
-
-	background-color: rgba(184, 0, 214, 0.05);
+	background-color: rgba(255,255,255,0.2);
 }
+

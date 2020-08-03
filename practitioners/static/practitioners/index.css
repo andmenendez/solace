@@ -8,7 +8,10 @@
 .practitioner_index_column {
 	display: flex;
 	flex-direction: column;
-	width: 500px;
+	width: 25%;
+	overflow-x: hidden;
+
+	border: 2px solid rgba(200,200,200,0.5);
 }
 .practitioner_index_messages {
 	

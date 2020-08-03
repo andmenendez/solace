@@ -1,0 +1,42 @@
+{% extends 'practitioners/base.html' %}
+
+{% block title %} index {% endblock %}
+
+{% block load_static %}
+{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'practitioners/practitioner_style.css' %}">
+{% endblock %}
+
+{% block body %}
+
+<div class="title">
+	<!-- Practitioner -->
+</div>
+<a href="{% url 'practitioner_public_profile' user.practitioner.id %}"> 
+	<button class="public_profile_link">Go To Public Profile </button>
+</a>
+
+<div class="profile_form_container">
+
+	<form method="post" action="{% url 'practitioner_profile' %}">
+		{% csrf_token %}
+		{% for field in form_prof %}
+			<div class="form_field">
+				<div class="form_field_tag">{{ field.label_tag }}</div>
+				<div class="form_field_field">{{ field }}</div>
+			</div>
+		{% endfor %}
+
+		{% for field in form_misc %}
+			<div class="form_field">
+				<div class="form_field_tag">{{ field.label_tag }}</div>
+				<div class="form_field_field">{{ field }}</div>
+			</div>
+		{% endfor %}
+
+		<input type="submit" class="form_submit_button" value="Submit">
+	</form>
+
+</div>
+
+{% endblock %}

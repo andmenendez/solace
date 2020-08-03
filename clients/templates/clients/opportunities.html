@@ -10,14 +10,34 @@
 {% block body %}
 
 <div id="title">
-	Opportunities
+	<!-- Opportunities -->
 </div>
 
 <div id="opportunities_container">
+	<div class="practitioner">
+		<div class="col col10 title">	Name</div>
+		<div class="col title">			Title</div>
+		<div class="col title">			State</div>
+		<div class="col col10 title">	Languages</div>
+		<div class="col col10 title">	Focus Issues</div>
+		<div class="col col10 title">	Specialties</div>
+		<div class="col col10 title">	Approaches</div>
+		<div class="col title">			Remote</div>
+	</div>
+
 	{% for pract in practitioners %}
+	
 	<a href="{% url 'practitioner_public_profile' pract.id %}">
-		<div class="practitioner">
-			{{ pract.first_name }} {{ pract.last_name }} {{ pract.id }}
+		<div class="practitioner pract_hover_effect">
+			<div class="col col10">	{{ pract.first_name }} {{ pract.last_name }}</div>
+			<div class="col">		{{ pract.accreditation }}</div>
+			<div class="col">		{{ pract.state }}</div>
+			<div class="col col10">	{{ pract.read_languages }}</div>
+			<div class="col col10">	{{ pract.read_focus_issues }}</div>
+			<div class="col col10">	{{ pract.read_specialties }}</div>
+			<div class="col col10">	{{ pract.read_approaches }}</div>
+			<div class="col">		{{ pract.is_remote }}</div>
+
 		</div>
 	</a>
 	{% endfor %}

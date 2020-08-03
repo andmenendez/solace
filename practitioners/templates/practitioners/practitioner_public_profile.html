@@ -10,36 +10,101 @@
 {% block body %}
 
 <div class="title">
-	Practitioner
+	{{ pract.first_name }} {{ pract.last_name }}
 </div>
 <div class="public_profile_container">
-	<div class="info_row">
-		<div class="info">first_name	</div><div class="info"> {{ pract.first_name }}</div>
+	<div class="info_row">	<div class="info_row_title">Accreditation:</div> {{ pract.accreditation }}</div>
+	<div class="info_row">	<div class="info_row_title">State:</div> {{ pract.state }}</div>
+	<div class="info_row">	<div class="info_row_title">State:</div> {{ pract.school }}</div>
+	<div class="info_row">  <span><span class="info_row_title">About:</span> {{ pract.about }}</span></div>
+	<div class="info_row">	
+		<div class="info_row_title">Languages:</div>
+		<ul>
+			{% for el in pract.get_languages_array %}
+				<li> {{ el }} </li>
+			{% endfor %}
+		</ul>
 	</div>
-	<div class="info_row">
-		<div class="info">last_name 	</div><div class="info"> {{ pract.last_name }} </div>
+	<div class="info_row"> 
+		<div class="info_row_title">Focus Issues:</div>
+		<ul>
+			{% for el in pract.get_focus_issues_array %}
+				<li> {{ el }} </li>
+			{% endfor %}
+		</ul>
 	</div>
-	<div class="info_row">
-		<div class="info">email  		</div><div class="info"> {{ pract.email }} 	</div>
+	<div class="info_row"> 
+		<div class="info_row_title">Specialties:</div>
+		<ul>
+			{% for el in pract.get_specialties_array %}
+				<li> {{ el }} </li>
+			{% endfor %}
+		</ul>
 	</div>
-	<div class="info_row">
-		<div class="info">phone  		</div><div class="info"> {{ pract.phone }} 	</div>
+	<div class="info_row"> 
+		<div class="info_row_title">Approaches:</div>
+		<ul>
+			{% for el in pract.get_approaches_array %}
+				<li> {{ el }} </li>
+			{% endfor %}
+		</ul>
 	</div>
-	<div class="info_row">
-		<div class="info">zipcode  		</div><div class="info"> {{ pract.zipcode }} 	</div>
-	</div>
-
+	<div class="info_row"><div class="info_row_title">Email: </div>{{ pract.email }}</div>
+	<div class="info_row"><div class="info_row_title">Phone: </div>{{ pract.phone }}</div>
+	<div class="info_row"><div class="info_row_title">Remote: </div>{{ pract.is_remote }}</div>
 </div>
 
 {% if user.is_authenticated %}
 	<div class="public_profile_container">
 
-		<form method="post" action="{% url 'client_send_message' %}">
-		{% csrf_token %}
-		<input type="hidden" value="helloworld" name="message">
-		<input type="submit" value="contact me">
+		<form method="post" action="{% url 'show_conversation' %}">
+			{% csrf_token %}
+			<input type="hidden" value="{{ user.client.to_char }}" 		name="sender_class">
+			<input type="hidden" value="{{ user.username }}" 			name="sender_user">
+			<input type="hidden" value="{{ pract.account.username }}" 	name="recipient_user">
+			<input type="submit" class="form_submit_button" value="Start Conversation">
 		</form>
+	</div>
+
+{% else %}
+	<!-- ANON CONVERSATION -->
+	<div class="public_profile_container">
+		<div id="anon_post_form_wrapper">
+		<form id="anon_post_form" action="{% url 'send_message_anon' %}" method="post">
+			{% csrf_token %}
+			<input name="practitioner" type="hidden" value="{{ pract.id }}">
+			<div id="anon_form">
+				<div id="anon_textfield_wrapper">
+					<input name="message" type="textfield" id="anon_post_body" class="anon_textfield" placeholder="ask anonymously.."/>
+				</div>
+
+				<div id="anon_textfield_wrapper">
+					<input name="contact_id" type="textfield" id="anon_post_contactid" class="anon_textfield anon_id" placeholder="contact email"/><!-- contact (✆ or @) -->
+				</div>
+			</div>
+
+			<input type="hidden" value="TC" 				name="sender_class">
+			<input type="hidden" value="{{ pract.id }}" 		name="pract_id">
+			<input type="submit" class="form_submit_button" value="Start Conversation">
+
+		</form>
+		<button id="anon_button">➡</button>	
+		</div>
+	</div>
+
+	<div class="profile_login_option">
+		<a href="{% url 'client_login' %}">
+			<div class="index_option">Login</div>
+		</a>
+		<a href="{% url 'client_register' %}">
+			<div class="index_option">Register</div>
+		</a>
 	</div>
 {% endif %}
 
+{% endblock %}
+
+{% block foot_static_load %}
+	{% load static %}
+	<script type="text/javascript" src="{% static 'anon_post/anon_ask.js' %}"></script>
 {% endblock %}

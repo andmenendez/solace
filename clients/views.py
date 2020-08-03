@@ -100,8 +100,6 @@ def client_profile(request):
 	return render(request, "clients/profile.html")
 
 def client_opportunities(request):
-	if not request.user.is_authenticated:
-		return HttpResponseRedirect(reverse("client_login"))
 	context = {
 		"practitioners": Practitioner.objects.all()
 	}

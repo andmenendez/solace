@@ -3,22 +3,18 @@ from django.db import models
 # from practitioners.models import Practitioner
 # Create your models here.
 
+class Temp_Client(models.Model):
+	contact_id	= models.EmailField()
+	created 	= models.DateTimeField(auto_now_add=True)
+
+	def to_char(self):
+		return "TC"
+
+	def __str__(self):
+		return "Anonymous"
+
 class Anon_Post(models.Model):
-	title 		= models.CharField(max_length=100)
 	body 		= models.TextField()
 	
-	created = models.DateTimeField(auto_now_add=True)
-
-class Temp_Client(models.Model):
-	contact_id	= models.CharField(max_length=100)
-
-# 	POST SHOULD BE ONE-TO-ONE RELATION
-	post 		= models.ForeignKey(Anon_Post, on_delete=models.CASCADE) 
-
-	created = models.DateTimeField(auto_now_add=True)
-	
-# class TC_connect(models.Model):
-	# practitioner 	= models.ForeignKey(Practitioner, on_delete=models.CASCADE, related_name= "practitioner")
-	# client 			= models.ForeignKey(Client, on_delete=models.CASCADE, related_name= "client")	
-
-	# created = models.DateTimeField(auto_now_add=True)
+	author 		= models.ForeignKey(Temp_Client, on_delete=models.CASCADE, related_name="posts") 
+	created 	= models.DateTimeField(auto_now_add=True)

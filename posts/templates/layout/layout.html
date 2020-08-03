@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title> Solace | {% block pseudotitle %}{% endblock %} </title>
+
+		{% load static %}
+
+		{% block pseudoload_static %}{% endblock %}
+
+		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+
+		
+		<meta name="viewport" content="width=device-width, initial-scale=.34">
+		
+	</head>
+
+	<body>
+
+		{% block core %}
+		{% endblock %}
+
+		<!-- <div id="solace_title_reflection">
+				solace
+		</div> -->
+
+		<div class="footer">
+			<div class="footer_button">
+				<div class="footer_small_circle"></div>
+				<div class="footer_small_circle"></div>
+				<div class="footer_small_circle"></div>
+			</div>
+		</div>
+
+	</body>
+	<footer>
+		{% block footer %}
+		{% endblock %}
+	</footer>
+</html>

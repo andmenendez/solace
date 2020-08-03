@@ -1,52 +1,24 @@
-window.onload = function() 
+// window.addEventListener('scroll', function(e)
+// {	
+// 	if (window.scrollY !== 0)
+// 	{
+// 		document.querySelector("#solace_title").style.fontSize = "72px"
+// 	}
+// 	else
+// 	{
+// 		document.querySelector("#solace_title").style.fontSize = "144px"
+// 	}
+// });
+
+document.querySelector(".nav_button").addEventListener("click", function() 
 {
-	document.querySelector(".nav_button").addEventListener("click", function() 
+	if (this.classList.contains("nav_button_active"))
 	{
-		if (this.classList.contains("nav_button_active"))
-		{
-			closeNavMenu();
-		} else {
-			openNavMenu();
-		}
-	});
-
-	document.querySelector("#anon_button").addEventListener("click", function() 
-	{
-		if (document.querySelector("#anon_post_body").value == "")
-		{
-			document.querySelector("#anon_post_body").focus();
-		}
-		else if (document.querySelector("#anon_post_contactid").value == "")
-		{
-			document.querySelector("#anon_post_contactid").focus();
-		}
-		else
-		{
-			console.log("FORM COMPLETE")
-			document.querySelector("#anon_post_form").submit();
-		}
-	})
-
-	document.addEventListener("keypress", function(e){
-		if (e.code == "Enter") 
-		{
-			if (document.querySelector("#anon_post_body").value == "")
-			{
-				document.querySelector("#anon_post_body").focus();
-			}
-			else if (document.querySelector("#anon_post_contactid").value == "")
-			{
-				document.querySelector("#anon_post_contactid").focus();
-			}
-			else
-			{
-				console.log("FORM COMPLETE")
-				document.querySelector("#anon_post_form").submit();
-			}
-		}
-
-	})
-}
+		closeNavMenu();
+	} else {
+		openNavMenu();
+	}
+});
 
 function openNavMenu()
 {	

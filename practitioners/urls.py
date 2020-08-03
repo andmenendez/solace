@@ -7,10 +7,11 @@ from . import views
 # app_name = 'practitioners'
 
 urlpatterns = [
-	path('', views.practitioner_index, name="practitioner_index"),
-	path('login', views.practitioner_login, name="practitioner_login"),
-	path('register', views.practitioner_register, name="practitioner_register"),
-	path('logout', views.practitioner_logout, name="practitioner_logout")
+	path('home', 			views.practitioner_index, 		name="practitioner_index"),
+	path('profile', 	views.practitioner_profile, 	name="practitioner_profile"),
+	path('login', 		views.practitioner_login, 		name="practitioner_login"),
+	path('register', 	views.practitioner_register, 	name="practitioner_register"),
+	path('logout', 		views.practitioner_logout, 		name="practitioner_logout")
 ]
 
 urlpatterns += [

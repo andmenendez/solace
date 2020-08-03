@@ -6,7 +6,8 @@ from django.http 				import HttpResponseRedirect
 from django.urls 				import reverse
 
 from .models 					import Practitioner
-from .forms 					import PractInfoForm, PractLoginForm
+from .forms 					import *
+from datamodels.models 			import *
 from conversations.models 		import Conversation, Message
 from clients.models				import Client
 from posts.models 				import Anon_Post
@@ -17,14 +18,61 @@ def practitioner_index(request):
 	if not request.user.is_authenticated:
 		return HttpResponseRedirect(reverse('practitioner_login'))
 	# try: 
+
+	print(request.user.practitioner.anonconversation_set.all())
 	context = {
-		"conv_list":Conversation.objects.filter(practitioner=request.user.practitioner),
-		"post_list":Anon_Post.objects.all()
+		"conv_list" 	: request.user.practitioner.conversation_set.all(),
+		"a_conv_list" 	: request.user.practitioner.anonconversation_set.all(),
+		"post_list"		: Anon_Post.objects.all()
 	}
 	return render(request, "practitioners/index.html", context)
-	
-	# except:
-	# 	return render(request, "test_html/test_failure.html", {"message": "not practitioner"})
+
+def practitioner_profile(request):
+	if not request.user.is_authenticated:
+		return HttpResponseRedirect(reverse('practitioner_login'))
+
+	if request.method == "POST":
+
+		user = request.user
+		pract = user.practitioner
+		pract.first_name 	= request.POST.get('first_name')
+		pract.last_name 	= request.POST.get('last_name')
+		pract.email 		= request.POST.get('email')
+		pract.phone 		= request.POST.get('phone')
+		pract.accreditation = request.POST.get('accreditation')
+		pract.license 		= request.POST.get('license')
+		pract.state 		= request.POST.get('state')
+		pract.zipcode 		= request.POST.get('zipcode')
+		pract.school 		= request.POST.get('school')
+		pract.about 		= request.POST.get('about')
+
+		if request.POST.get('is_remote') == "on":
+			pract.is_remote = True
+		else:
+			pract.is_remote = False
+
+		pract.save()
+		
+		updateForm = PractProfileForm(data = request.POST, instance = request.user.practitioner)
+		if updateForm.is_valid():
+			updateForm.save()
+
+		LanguagesCrossTable.update_user(user, 	request.POST.getlist("languages"))
+		FocusIssuesCrossTable.update_user(user, request.POST.getlist("focus_issues"))
+		SpecialtiesCrossTable.update_user(user, request.POST.getlist("specialties"))
+		ApproachesCrossTable.update_user(user, 	request.POST.getlist("approaches"))
+
+		return HttpResponseRedirect(reverse("practitioner_profile"))
+
+	form_prof = PractProfileForm(request.POST or None, instance=request.user.practitioner)
+	form_misc = PractMiscForm(user = request.user)
+
+	context = {
+		"user" 		: request.user,
+		"form_prof" : form_prof,
+		"form_misc" : form_misc,	
+	}
+	return render(request, "practitioners/profile.html", context)
 
 # PRACTITIONER ACCOUNTS \\ LOGIN, REGISTRATION, VIEWS
 def practitioner_login(request):
@@ -52,12 +100,13 @@ def practitioner_login(request):
 
 
 def practitioner_register(request):
+	if request.user.is_authenticated:
+		return HttpResponseRedirect(reverse("practitioner_index"))
 	if request.method=="GET":
-		form = PractInfoForm()
 		context= {	
 			"post_url": "practitioner_register",
 			"controller_name": "Practitioner Register",
-			"form": form
+			"form": PractInfoForm()
 		}
 		return render(request, "practitioners/form.html", context)
 	
@@ -91,7 +140,7 @@ def practitioner_register(request):
 
 			Practitioner.createPractitioner(user, user_info)
 
-			return render(request, "test_html/test_success.html", {"message": "practitioner_register > POST > user registered and logged in SUCCESS"})
+			return HttpResponseRedirect(reverse("practitioner_index"))
 		except ValidationError:
 			return render(request, "test_html/test_failure.html", {"message": "practitioner_register > POST > practitioner save FAILED"})
 	return render(request, "test_html/test_failure.html", {"message": "practitioner_register > POST > user FAILED to register"})

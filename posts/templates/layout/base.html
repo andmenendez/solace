@@ -1,54 +1,49 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<title> Solace | {% block title %}{% endblock %} </title>
+{% extends 'layout/layout.html' %}
 
-		{% load static %}
+{% block pseudotitle %}
+	{% block title %}
+	{% endblock %}
+{% endblock %}
 
-		<link rel="stylesheet" type="text/css" href="{% static 'anon_post/base.css' %}">
-		<link rel="stylesheet" type="text/css" href="{% static 'anon_post/anon_index.css' %}">
+{% block pseudoload_static %}
+	{% load static %}
 
-		{% block load_static %}{% endblock %}
-		<script type="text/javascript" src="{% static 'anon_post/anon_index.js' %}"></script>
-		<script type="text/javascript" src="{% static 'anon_post/anon_nav.js' %}"></script>
-
-		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
-
-		
-		<meta name="viewport" content="width=device-width, initial-scale=.34">
-		
-	</head>
-
-	<body>
-		<div id="color_animated_bg"></div>
-		<div id="white_fade_overlay"></div>
-
-			{% if user.is_authenticated %}
-				{% include 'layout/nav_authenticated_user.html' %}
-			{% else %}
-				{% include 'layout/nav_unauthenticated_user.html' %}
-			{% endif %}
-
-			<div id="solace_title">
-					<a href="{% url 'home' %}">solace</a>
-			</div>
-
-			<div class="content">
-				{% block body %}{% endblock %}
-			</div>
-			
-			<div id="solace_title_reflection">
-					solace
-			</div>
-
-			<div class="footer">
-				<div class="footer_button">
-					<div class="footer_small_circle"></div>
-					<div class="footer_small_circle"></div>
-					<div class="footer_small_circle"></div>
-				</div>
-			</div>
+	<link rel="stylesheet" type="text/css" href="{% static 'anon_post/base.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'anon_post/anon_index.css' %}">
 
 
-	</body>
-</html>
+	{% block load_static %}
+	{% endblock %}
+{% endblock %}
+
+
+{% block core %}
+
+	<div id="color_animated_bg">
+		<div class="aurora-outer"><div class="aurora-inner"></div></div>
+	</div>
+	<div id="white_fade_overlay"></div>
+
+	{% if user.is_authenticated %}
+		{% include 'layout/nav_authenticated_user.html' %}
+	{% else %}
+		{% include 'layout/nav_unauthenticated_user.html' %}
+	{% endif %}
+
+	<div id="solace_title">
+			<a href="{% url 'home' %}">solace</a>
+	</div>
+
+	<div class="content">
+		{% block body %}{% endblock %}
+	</div>
+
+
+{% endblock %}
+
+{% block footer %}
+	{% load static %}
+	<script type="text/javascript" src="{% static 'anon_post/anon_index.js' %}"></script>
+	{% block foot_static_load %}
+	{% endblock %}
+{% endblock %}
