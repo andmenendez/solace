@@ -1,3 +1,16 @@
+#under_construction {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 300px;
+	padding: 10px;
+	text-align: center;
+	background-color: rgba(0,0,0,0.8);
+	color: rgba(200,200,100,1);
+
+	transform: rotate(-35deg) translate(-85px, -15px);
+}
+
 * {
 	font-family: 'Roboto', sans-serif;
 }

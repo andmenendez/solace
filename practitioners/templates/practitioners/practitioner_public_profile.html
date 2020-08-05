@@ -55,13 +55,13 @@
 </div>
 
 {% if user.is_authenticated %}
+	<!-- DIRECT MESSAGE FROM EXISTING USER -->
 	<div class="public_profile_container">
 
 		<form method="post" action="{% url 'show_conversation' %}">
 			{% csrf_token %}
 			<input type="hidden" value="{{ user.client.to_char }}" 		name="sender_class">
-			<input type="hidden" value="{{ user.username }}" 			name="sender_user">
-			<input type="hidden" value="{{ pract.account.username }}" 	name="recipient_user">
+			<input type="hidden" value="{{ pract.id }}" 	name="pract_id">
 			<input type="submit" class="form_submit_button" value="Start Conversation">
 		</form>
 	</div>
@@ -72,19 +72,18 @@
 		<div id="anon_post_form_wrapper">
 		<form id="anon_post_form" action="{% url 'send_message_anon' %}" method="post">
 			{% csrf_token %}
-			<input name="practitioner" type="hidden" value="{{ pract.id }}">
-			<div id="anon_form">
-				<div id="anon_textfield_wrapper">
-					<input name="message" type="textfield" id="anon_post_body" class="anon_textfield" placeholder="ask anonymously.."/>
-				</div>
+			<!-- <div id="anon_form"> -->
+				<!-- <div id="anon_textfield_wrapper"> -->
+					<input name="message" type="textfield" id="anon_post_body" class="anon_textfield" placeholder="ask anonymously.. (OPTIONAL TEXT)"/>
+				<!-- </div> -->
 
-				<div id="anon_textfield_wrapper">
+				<!-- <div id="anon_textfield_wrapper"> -->
 					<input name="contact_id" type="textfield" id="anon_post_contactid" class="anon_textfield anon_id" placeholder="contact email"/><!-- contact (✆ or @) -->
-				</div>
-			</div>
+				<!-- </div> -->
+			<!-- </div> -->
 
 			<input type="hidden" value="TC" 				name="sender_class">
-			<input type="hidden" value="{{ pract.id }}" 		name="pract_id">
+			<input type="hidden" value="{{ pract.id }}" 	name="pract_id">
 			<input type="submit" class="form_submit_button" value="Start Conversation">
 
 		</form>
